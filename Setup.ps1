@@ -7,18 +7,18 @@ param(
     [SecureString]$Password
 )
 
+Write-Verbose 'Loading script dependencies';
+. (Join-Location $PSScriptRoot 'Get-IsAdmin.ps1');
+. (Join-Location $PSScriptRoot 'New-SetupVars.ps1');
+. (Join-Location $PSScriptRoot 'Get-FreeNetworkPort.ps1');
+. (Join-Location $PSScriptRoot 'Enable-Wsl.ps1');
+
 if (-not (Get-IsAdmin)) {
     Write-Error "You need to run the Pi-hole installer with administrative rights. Is User Account Control enabled?";
     exit 1;
 } else {
     Write-Information "Administrator check passed :-)";
 }
-
-Write-Verbose 'Loading script dependencies';
-. (Join-Location $PSScriptRoot 'Get-IsAdmin.ps1');
-. (Join-Location $PSScriptRoot 'New-SetupVars.ps1');
-. (Join-Location $PSScriptRoot 'Get-FreeNetworkPort.ps1');
-. (Join-Location $PSScriptRoot 'Enable-Wsl.ps1');
 
 Write-Verbose 'Enabling the Windows Subsystem for Linux (WSL)'
 Enable-Wsl;
